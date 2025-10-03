@@ -1,8 +1,10 @@
 package organization;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Properties;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -19,17 +21,30 @@ import org.openqa.selenium.support.ui.Select;
 
 public class CreateOrganization {
 	public static void main(String[] args) throws InterruptedException, EncryptedDocumentException, IOException {
+		
+//		1.	Get the Java Representation Object of the physical file
+		FileInputStream fis = new FileInputStream("./src/test/resources/CommanData.properties");
+
+//		2.	Use the load() of Properties class to load all the keys
+		Properties pObj = new Properties();
+		pObj.load(fis);
+		
+//		3.	Use the getProperty(Key) and pass the key and get the value in String format
+		String BROWSER = pObj.getProperty("bro");
+		String URL = pObj.getProperty("url");
+		String USERNAME = pObj.getProperty("un");
+		String PASSWORD = pObj.getProperty("pwd");
+		
 		WebDriver driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-		driver.get("http://localhost:8888/");
+		driver.get(URL);
 		
 //		Login
 		WebElement username = driver.findElement(By.name("user_name"));
 		WebElement password = driver.findElement(By.name("user_password"));
-		
-		username.sendKeys("admin");
-		password.sendKeys("manager");
+		username.sendKeys(USERNAME);
+		password.sendKeys(PASSWORD);
 		driver.findElement(By.id("submitButton")).click();
 
 		
@@ -37,19 +52,22 @@ public class CreateOrganization {
 //		Create Organization
 		driver.findElement(By.linkText("Organizations")).click();
 		driver.findElement(By.cssSelector("img[title='Create Organization...']")).click();
-		
 		//org name
-		FileInputStream fis = new FileInputStream("./src/test/resources/testScriptData.xlsx");
-		
-		Workbook wb = WorkbookFactory.create(fis);
-		
+		FileInputStream fiss = new FileInputStream("./src/test/resources/testScriptData.xlsx");
+		Workbook wb = WorkbookFactory.create(fiss);
 		Sheet sh = wb.getSheet("a12");
+		//Row rw = sh.createRow(11);
+		//Cell cell = rw.createCell(0);
+		//cell.setCellValue("googlechrome_");
+		//save the changes
+		//FileOutputStream fos = new FileOutputStream("./src/test/resources/TestScriptDataToSet.xlsx");
+		//wb.write(fos);
 		
-		Row row = sh.getRow(8);
+		Row row = sh.getRow(5);
 		
-		Cell cell = row.getCell(0);
+		Cell cell1 = row.getCell(0);
 		
-		String orgName = cell.getStringCellValue() + (int)(Math.random()*9999);;
+		String orgName = cell1.getStringCellValue() + (int)(Math.random()*9999);;
 		
 		System.out.println(orgName);
 		
