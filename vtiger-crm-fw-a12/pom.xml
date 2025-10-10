@@ -34,5 +34,13 @@
 			<artifactId>A11BasicSelenium</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+<dependency>
+    <groupId>org.testng</groupId>
+    <artifactId>testng</artifactId>
+    <version>7.11.0</version>
+</dependency>
+
 	</dependencies>
 </project>
