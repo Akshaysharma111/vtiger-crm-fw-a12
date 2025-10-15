@@ -7,6 +7,11 @@ public class ContactTest extends BaseClass {
 	public void createContactTest() {
 		System.out.println("create contact + verify");
 	}	
+	@Test
+	public void deleteContactTest() {
+		System.out.println("delete contact + verify");
+	}	
+
 	
 
 }
